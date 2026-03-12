@@ -1,157 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AP Gov Study — Learning Module</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Gov Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f0e0c; --parchment: #f5f0e8; --cream: #faf7f2;
+    --gold: #c9973a; --gold-lt: #e8c97a; --muted: #7a7060;
+    --border: #d4c9b0; --text: #2a2520;
+  }
+  body { background: var(--cream); color: var(--ink); font-family: 'Source Serif 4', Georgia, serif; min-height: 100vh; }
+
+  /* HERO MASTHEAD */
+  .hero {
+    background: var(--ink);
+    border-bottom: 3px solid var(--gold);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(201,151,58,0.04) 36px, rgba(201,151,58,0.04) 37px),
+                repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(201,151,58,0.04) 36px, rgba(201,151,58,0.04) 37px);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 56px 40px 48px; position: relative; }
+  .hero-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    letter-spacing: 0.28em; color: var(--gold); text-transform: uppercase; margin-bottom: 14px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5.5vw, 62px);
+    font-weight: 900; line-height: 1.0;
+    color: var(--parchment); margin-bottom: 10px;
+  }
+  .hero-title span { color: var(--gold-lt); }
+  .hero-sub { font-family: 'Source Serif 4', serif; font-style: italic; font-size: 16px; color: #a09880; max-width: 540px; line-height: 1.6; margin-bottom: 28px; }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .hero-stat {}
+  .hero-stat-n { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--gold-lt); line-height: 1; }
+  .hero-stat-l { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.18em; color: rgba(255,255,255,0.45); text-transform: uppercase; margin-top: 2px; }
+
+  /* PROGRESS BAR */
+  .progress-bar-section { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); }
+  .progress-bar-inner { max-width: 1100px; margin: 0 auto; padding: 12px 40px 14px; }
+  .progress-track { height: 2px; background: rgba(255,255,255,0.09); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); transition: width 0.6s; }
+  .progress-text { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 6px; letter-spacing: 0.1em; }
+
+  /* CONTENT */
+  .content-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 40px 80px; }
+
+  /* UNIT GRID */
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .unit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px; margin-bottom: 52px;
+  }
+  .unit-card {
+    background: white; border: 1.5px solid var(--border);
+    overflow: hidden; cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .unit-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.1); }
+  .unit-card-header { padding: 20px 22px 16px; color: white; position: relative; overflow: hidden; }
+  .unit-card-header::after { content: ''; position: absolute; right: -12px; bottom: -16px; width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+  .uc-num { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 5px; }
+  .uc-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 900; line-height: 1.25; margin-bottom: 4px; }
+  .uc-weight { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); }
+  .unit-card-body { padding: 16px 22px 18px; }
+  .uc-desc { font-size: 13px; line-height: 1.65; color: var(--muted); margin-bottom: 14px; }
+  .uc-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .uc-pill { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; background: var(--cream); border: 1px solid var(--border); color: var(--muted); }
+  .uc-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
+  .uc-progress-wrap { flex: 1; margin-right: 16px; }
+  .uc-progress-track { height: 3px; background: #e8e4dc; }
+  .uc-progress-fill { height: 100%; background: var(--gold); transition: width 0.5s; }
+  .uc-progress-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 4px; letter-spacing: 0.08em; }
+  .uc-start-btn {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 8px 16px;
+    border: 1.5px solid; cursor: pointer; transition: all 0.15s;
+    white-space: nowrap; background: transparent; text-decoration: none;
+    display: inline-block;
+  }
+
+  /* Unit colors */
+  .u1 .unit-card-header { background: linear-gradient(135deg, #1a3a5c, #2456a4); }
+  .u1 .uc-start-btn { color: #1a3a5c; border-color: #1a3a5c; }
+  .u1 .uc-start-btn:hover { background: #1a3a5c; color: white; }
+  .u1 .uc-progress-fill { background: #2456a4; }
+  .u2 .unit-card-header { background: linear-gradient(135deg, #2d5a27, #3d7a35); }
+  .u2 .uc-start-btn { color: #2d5a27; border-color: #2d5a27; }
+  .u2 .uc-start-btn:hover { background: #2d5a27; color: white; }
+  .u2 .uc-progress-fill { background: #3d7a35; }
+  .u3 .unit-card-header { background: linear-gradient(135deg, #6b2020, #9a3030); }
+  .u3 .uc-start-btn { color: #6b2020; border-color: #6b2020; }
+  .u3 .uc-start-btn:hover { background: #6b2020; color: white; }
+  .u3 .uc-progress-fill { background: #9a3030; }
+  .u4 .unit-card-header { background: linear-gradient(135deg, #4a2d6b, #6b3fa0); }
+  .u4 .uc-start-btn { color: #4a2d6b; border-color: #4a2d6b; }
+  .u4 .uc-start-btn:hover { background: #4a2d6b; color: white; }
+  .u4 .uc-progress-fill { background: #6b3fa0; }
+  .u5 .unit-card-header { background: linear-gradient(135deg, #5a3a0d, #8b5a1a); }
+  .u5 .uc-start-btn { color: #5a3a0d; border-color: #5a3a0d; }
+  .u5 .uc-start-btn:hover { background: #5a3a0d; color: white; }
+  .u5 .uc-progress-fill { background: #8b5a1a; }
+
+  /* QUICK REFERENCE */
+  .quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 52px; }
+  .quick-card { background: white; border: 1px solid var(--border); padding: 16px 18px; }
+  .qc-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 3px; }
+  .qc-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .qc-desc { font-size: 12.5px; line-height: 1.5; color: var(--text); margin-top: 8px; }
+
+  /* FOOTER */
+  footer { background: #080807; color: rgba(255,255,255,0.25); text-align: center; padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; border-top: 1px solid rgba(201,151,58,0.15); }
+
+  @media (max-width: 700px) { .hero-inner, .content-wrap { padding: 28px 20px; } .unit-grid { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
-  <!-- NAV -->
-  <nav class="navbar">
-    <div class="nav-brand">
-      <span class="nav-icon">🏛️</span>
-      <span>AP Gov Study</span>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">AP United States Government &amp; Politics</div>
+    <h1 class="hero-title">Study <span>Smarter.</span><br>Score Higher.</h1>
+    <p class="hero-sub">An interactive, exam-aligned learning system covering all 5 AP Gov units — with quizzes, required SCOTUS cases, FRQ graders, and AI-powered feedback.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-n">5</div><div class="hero-stat-l">AP Units</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">25+</div><div class="hero-stat-l">Modules</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">15</div><div class="hero-stat-l">Required Cases</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">9</div><div class="hero-stat-l">Required Docs</div></div>
     </div>
-    <ul class="nav-links">
-      <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
-      <li><a href="#" class="nav-link" data-target="frq">FRQ Grader</a></li>
-      <li><a href="#" class="nav-link" data-target="scotus">SCOTUS Explorer</a></li>
-      <li><a href="#" class="nav-link" data-target="units">Units</a></li>
-    </ul>
-  </nav>
+  </div>
+</section>
 
-  <!-- MAIN CONTENT -->
-  <main class="main-content">
+<div class="progress-bar-section">
+  <div class="progress-bar-inner">
+    <div class="progress-track"><div class="progress-fill" id="overallFill" style="width:0%"></div></div>
+    <div class="progress-text" id="overallText">Begin studying — select a unit below</div>
+  </div>
+</div>
 
-    <!-- HOME PAGE -->
-    <section id="home" class="page active">
-      <div class="hero">
-        <h1>AP United States Government &amp; Politics</h1>
-        <p class="hero-sub">Master the exam with interactive tools, case studies, and AI-powered FRQ feedback.</p>
-        <div class="hero-cards">
-          <div class="hero-card" data-nav="frq">
-            <div class="hero-card-icon">✍️</div>
-            <h3>FRQ Grader</h3>
-            <p>Practice free-response questions with instant rubric-based scoring and detailed feedback.</p>
-            <button class="btn btn-primary">Start Writing</button>
+<div class="content-wrap">
+
+  <div class="section-label">
+    <span>Five Units of Study</span>
+    <span id="completedCount" style="font-size:10px;"></span>
+  </div>
+
+  <div class="unit-grid">
+    <a href="unit1.html" class="unit-card u1">
+      <div class="unit-card-header">
+        <div class="uc-num">Unit 1 · 15–22% of Exam</div>
+        <div class="uc-title">Foundations of American Democracy</div>
+        <div class="uc-weight">5 Modules</div>
+      </div>
+      <div class="unit-card-body">
+        <p class="uc-desc">Enlightenment principles, Constitutional Convention, federalism, and the mechanisms of constitutional change.</p>
+        <div class="uc-pills">
+          <span class="uc-pill">Federalist No. 10</span>
+          <span class="uc-pill">Federalist No. 51</span>
+          <span class="uc-pill">Brutus No. 1</span>
+          <span class="uc-pill">McCulloch v. MD</span>
+          <span class="uc-pill">U.S. v. Lopez</span>
+        </div>
+        <div class="uc-footer">
+          <div class="uc-progress-wrap">
+            <div class="uc-progress-track"><div class="uc-progress-fill" id="prog-1" style="width:0%"></div></div>
+            <div class="uc-progress-label" id="prog-label-1">Not started</div>
           </div>
-          <div class="hero-card" data-nav="scotus">
-            <div class="hero-card-icon">⚖️</div>
-            <h3>SCOTUS Explorer</h3>
-            <p>Explore all 15 required Supreme Court cases with summaries, holdings, and significance.</p>
-            <button class="btn btn-primary">Explore Cases</button>
-          </div>
-          <div class="hero-card" data-nav="units">
-            <div class="hero-card-icon">📚</div>
-            <h3>Unit Guides</h3>
-            <p>Review key concepts across all 5 AP Gov units with exam tips and quick-reference notes.</p>
-            <button class="btn btn-primary">Study Units</button>
-          </div>
+          <span class="uc-start-btn">Start →</span>
         </div>
       </div>
-      <div class="quick-stats">
-        <div class="stat"><span class="stat-num">5</span><span class="stat-label">AP Units</span></div>
-        <div class="stat"><span class="stat-num">15</span><span class="stat-label">Required SCOTUS Cases</span></div>
-        <div class="stat"><span class="stat-num">4</span><span class="stat-label">FRQ Types</span></div>
-        <div class="stat"><span class="stat-num">55%</span><span class="stat-label">FRQ Exam Weight</span></div>
+    </a>
+
+    <a href="unit2.html" class="unit-card u2">
+      <div class="unit-card-header">
+        <div class="uc-num">Unit 2 · 25–36% of Exam</div>
+        <div class="uc-title">Interactions Among Branches</div>
+        <div class="uc-weight">6 Modules</div>
       </div>
-    </section>
-
-    <!-- FRQ GRADER -->
-    <section id="frq" class="page">
-      <div class="page-header">
-        <h2>✍️ FRQ Grader</h2>
-        <p>Select a question type, write your response, and receive rubric-based scoring with detailed feedback.</p>
-      </div>
-
-      <div class="frq-layout">
-        <!-- Question Selector -->
-        <aside class="frq-sidebar">
-          <h3>Question Bank</h3>
-          <div class="frq-filter">
-            <label>Filter by type:</label>
-            <select id="frq-type-filter">
-              <option value="all">All Types</option>
-              <option value="concept-application">Concept Application</option>
-              <option value="quantitative-analysis">Quantitative Analysis</option>
-              <option value="scotus-comparison">SCOTUS Comparison</option>
-              <option value="argument-essay">Argument Essay</option>
-            </select>
+      <div class="unit-card-body">
+        <p class="uc-desc">Congress, the Presidency, the Bureaucracy, and the Judiciary — how they interact and check each other.</p>
+        <div class="uc-pills">
+          <span class="uc-pill">Federalist No. 70</span>
+          <span class="uc-pill">Federalist No. 78</span>
+          <span class="uc-pill">Marbury v. Madison</span>
+          <span class="uc-pill">Baker v. Carr</span>
+        </div>
+        <div class="uc-footer">
+          <div class="uc-progress-wrap">
+            <div class="uc-progress-track"><div class="uc-progress-fill" id="prog-2" style="width:0%"></div></div>
+            <div class="uc-progress-label" id="prog-label-2">Not started</div>
           </div>
-          <ul class="frq-question-list" id="frq-question-list"></ul>
-        </aside>
-
-        <!-- FRQ Work Area -->
-        <div class="frq-main">
-          <div id="frq-prompt-box" class="frq-prompt-box">
-            <p class="placeholder-text">← Select a question from the list to begin.</p>
-          </div>
-
-          <div id="frq-write-area" class="hidden">
-            <div class="frq-meta" id="frq-meta"></div>
-            <div class="frq-parts" id="frq-parts"></div>
-            <div class="frq-actions">
-              <button class="btn btn-primary" id="frq-grade-btn">Grade My Response</button>
-              <button class="btn btn-secondary" id="frq-reset-btn">Reset</button>
-            </div>
-          </div>
-
-          <div id="frq-results" class="hidden">
-            <h3>Your Score</h3>
-            <div class="score-display" id="score-display"></div>
-            <div class="score-breakdown" id="score-breakdown"></div>
-            <button class="btn btn-secondary" id="frq-retry-btn">Try Again</button>
-            <button class="btn btn-outline" id="frq-new-btn">New Question</button>
-          </div>
+          <span class="uc-start-btn">Start →</span>
         </div>
       </div>
-    </section>
+    </a>
 
-    <!-- SCOTUS EXPLORER -->
-    <section id="scotus" class="page">
-      <div class="page-header">
-        <h2>⚖️ Supreme Court Case Explorer</h2>
-        <p>All 15 required AP Gov Supreme Court cases — searchable, filterable, and exam-ready.</p>
+    <a href="unit3.html" class="unit-card u3">
+      <div class="unit-card-header">
+        <div class="uc-num">Unit 3 · 13–18% of Exam</div>
+        <div class="uc-title">Civil Liberties &amp; Civil Rights</div>
+        <div class="uc-weight">6 Modules</div>
       </div>
-
-      <div class="scotus-controls">
-        <input type="text" id="scotus-search" placeholder="Search cases, topics, or constitutional provisions..." class="search-input" />
-        <div class="scotus-filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="1">Unit 1</button>
-          <button class="filter-btn" data-filter="2">Unit 2</button>
-          <button class="filter-btn" data-filter="3">Unit 3</button>
-          <button class="filter-btn" data-filter="4">Unit 4</button>
-          <button class="filter-btn" data-filter="5">Unit 5</button>
+      <div class="unit-card-body">
+        <p class="uc-desc">The Bill of Rights, selective incorporation, First Amendment freedoms, criminal procedure, and equal protection.</p>
+        <div class="uc-pills">
+          <span class="uc-pill">Tinker v. Des Moines</span>
+          <span class="uc-pill">Brown v. Board</span>
+          <span class="uc-pill">Gideon v. Wainwright</span>
+          <span class="uc-pill">Engel v. Vitale</span>
+        </div>
+        <div class="uc-footer">
+          <div class="uc-progress-wrap">
+            <div class="uc-progress-track"><div class="uc-progress-fill" id="prog-3" style="width:0%"></div></div>
+            <div class="uc-progress-label" id="prog-label-3">Not started</div>
+          </div>
+          <span class="uc-start-btn">Start →</span>
         </div>
       </div>
+    </a>
 
-      <div class="scotus-grid" id="scotus-grid"></div>
-
-      <!-- Case Detail Modal -->
-      <div id="case-modal" class="modal hidden">
-        <div class="modal-overlay"></div>
-        <div class="modal-content" id="modal-content"></div>
+    <a href="unit4.html" class="unit-card u4">
+      <div class="unit-card-header">
+        <div class="uc-num">Unit 4 · 10–15% of Exam</div>
+        <div class="uc-title">American Political Ideologies</div>
+        <div class="uc-weight">4 Modules</div>
       </div>
-    </section>
-
-    <!-- UNITS PAGE -->
-    <section id="units" class="page">
-      <div class="page-header">
-        <h2>📚 Unit Review Guides</h2>
-        <p>Key concepts, vocabulary, and exam tips for all five AP Gov units.</p>
+      <div class="unit-card-body">
+        <p class="uc-desc">Political socialization, public opinion polling, the liberal-conservative spectrum, and ideological polarization.</p>
+        <div class="uc-pills">
+          <span class="uc-pill">Political Socialization</span>
+          <span class="uc-pill">Public Opinion</span>
+          <span class="uc-pill">Polarization</span>
+        </div>
+        <div class="uc-footer">
+          <div class="uc-progress-wrap">
+            <div class="uc-progress-track"><div class="uc-progress-fill" id="prog-4" style="width:0%"></div></div>
+            <div class="uc-progress-label" id="prog-label-4">Not started</div>
+          </div>
+          <span class="uc-start-btn">Start →</span>
+        </div>
       </div>
-      <div class="units-grid" id="units-grid"></div>
-    </section>
+    </a>
 
-  </main>
+    <a href="unit5.html" class="unit-card u5">
+      <div class="unit-card-header">
+        <div class="uc-num">Unit 5 · 20–27% of Exam</div>
+        <div class="uc-title">Political Participation</div>
+        <div class="uc-weight">7 Modules</div>
+      </div>
+      <div class="unit-card-body">
+        <p class="uc-desc">Voting, political parties, interest groups, the media, campaign finance, and the Electoral College.</p>
+        <div class="uc-pills">
+          <span class="uc-pill">Citizens United v. FEC</span>
+          <span class="uc-pill">Baker v. Carr</span>
+          <span class="uc-pill">Shaw v. Reno</span>
+        </div>
+        <div class="uc-footer">
+          <div class="uc-progress-wrap">
+            <div class="uc-progress-track"><div class="uc-progress-fill" id="prog-5" style="width:0%"></div></div>
+            <div class="uc-progress-label" id="prog-label-5">Not started</div>
+          </div>
+          <span class="uc-start-btn">Start →</span>
+        </div>
+      </div>
+    </a>
+  </div>
 
-  <footer class="footer">
-    <p>AP Gov Study Tool · Content aligned with College Board AP United States Government &amp; Politics CED · Not affiliated with College Board.</p>
-  </footer>
+  <div class="section-label">At a Glance</div>
+  <div class="quick-grid">
+    <div class="quick-card">
+      <div class="qc-num">5</div>
+      <div class="qc-label">AP Units</div>
+      <p class="qc-desc">Each unit has 4–7 interactive modules with quizzes and FRQ practice.</p>
+    </div>
+    <div class="quick-card">
+      <div class="qc-num">15</div>
+      <div class="qc-label">Required SCOTUS Cases</div>
+      <p class="qc-desc">All 15 College Board–required cases with facts, holding, significance, and exam tips.</p>
+    </div>
+    <div class="quick-card">
+      <div class="qc-num">9</div>
+      <div class="qc-label">Required Docs</div>
+      <p class="qc-desc">All 9 foundational documents — Federalist Papers, Brutus No. 1, Letter from Birmingham Jail, and more.</p>
+    </div>
+    <div class="quick-card">
+      <div class="qc-num">4</div>
+      <div class="qc-label">FRQ Types</div>
+      <p class="qc-desc">Concept Application, Quantitative Analysis, SCOTUS Comparison, and Argument Essay — all covered.</p>
+    </div>
+    <div class="quick-card">
+      <div class="qc-num">⚡</div>
+      <div class="qc-label">AI FRQ Grader</div>
+      <p class="qc-desc">Every unit has an AI-powered FRQ grader that provides AP-style rubric feedback on your writing.</p>
+    </div>
+  </div>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+</div>
+
+<footer>AP Gov Study · Aligned with College Board AP United States Government &amp; Politics CED · Not affiliated with College Board</footer>
+
+<script>
+  // Load unit progress from localStorage
+  const unitModuleCounts = { 1: 5, 2: 6, 3: 6, 4: 4, 5: 7 };
+  function loadProgress() {
+    let totalDone = 0, totalAll = 0;
+    for (let u = 1; u <= 5; u++) {
+      const done = parseInt(localStorage.getItem(`unit${u}_progress`) || '0');
+      const total = unitModuleCounts[u];
+      totalDone += done; totalAll += total;
+      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+      const bar = document.getElementById(`prog-${u}`);
+      const lbl = document.getElementById(`prog-label-${u}`);
+      if (bar) bar.style.width = pct + '%';
+      if (lbl) lbl.textContent = done === 0 ? 'Not started' : `${done}/${total} modules done`;
+    }
+    const overall = totalAll > 0 ? Math.round((totalDone / totalAll) * 100) : 0;
+    document.getElementById('overallFill').style.width = overall + '%';
+    document.getElementById('overallText').textContent = totalDone === 0
+      ? 'Begin studying — select a unit below'
+      : `${totalDone} of ${totalAll} total modules completed (${overall}%)`;
+    document.getElementById('completedCount').textContent = totalDone > 0 ? `${totalDone}/${totalAll} modules done` : '';
+  }
+  loadProgress();
+</script>
 </body>
 </html>
