@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AP Gov Study — Learning Module</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="nav-icon">🏛️</span>
+      <span>AP Gov Study</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
+      <li><a href="#" class="nav-link" data-target="frq">FRQ Grader</a></li>
+      <li><a href="#" class="nav-link" data-target="scotus">SCOTUS Explorer</a></li>
+      <li><a href="#" class="nav-link" data-target="units">Units</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- HOME PAGE -->
+    <section id="home" class="page active">
+      <div class="hero">
+        <h1>AP United States Government &amp; Politics</h1>
+        <p class="hero-sub">Master the exam with interactive tools, case studies, and AI-powered FRQ feedback.</p>
+        <div class="hero-cards">
+          <div class="hero-card" data-nav="frq">
+            <div class="hero-card-icon">✍️</div>
+            <h3>FRQ Grader</h3>
+            <p>Practice free-response questions with instant rubric-based scoring and detailed feedback.</p>
+            <button class="btn btn-primary">Start Writing</button>
+          </div>
+          <div class="hero-card" data-nav="scotus">
+            <div class="hero-card-icon">⚖️</div>
+            <h3>SCOTUS Explorer</h3>
+            <p>Explore all 15 required Supreme Court cases with summaries, holdings, and significance.</p>
+            <button class="btn btn-primary">Explore Cases</button>
+          </div>
+          <div class="hero-card" data-nav="units">
+            <div class="hero-card-icon">📚</div>
+            <h3>Unit Guides</h3>
+            <p>Review key concepts across all 5 AP Gov units with exam tips and quick-reference notes.</p>
+            <button class="btn btn-primary">Study Units</button>
+          </div>
+        </div>
+      </div>
+      <div class="quick-stats">
+        <div class="stat"><span class="stat-num">5</span><span class="stat-label">AP Units</span></div>
+        <div class="stat"><span class="stat-num">15</span><span class="stat-label">Required SCOTUS Cases</span></div>
+        <div class="stat"><span class="stat-num">4</span><span class="stat-label">FRQ Types</span></div>
+        <div class="stat"><span class="stat-num">55%</span><span class="stat-label">FRQ Exam Weight</span></div>
+      </div>
+    </section>
+
+    <!-- FRQ GRADER -->
+    <section id="frq" class="page">
+      <div class="page-header">
+        <h2>✍️ FRQ Grader</h2>
+        <p>Select a question type, write your response, and receive rubric-based scoring with detailed feedback.</p>
+      </div>
+
+      <div class="frq-layout">
+        <!-- Question Selector -->
+        <aside class="frq-sidebar">
+          <h3>Question Bank</h3>
+          <div class="frq-filter">
+            <label>Filter by type:</label>
+            <select id="frq-type-filter">
+              <option value="all">All Types</option>
+              <option value="concept-application">Concept Application</option>
+              <option value="quantitative-analysis">Quantitative Analysis</option>
+              <option value="scotus-comparison">SCOTUS Comparison</option>
+              <option value="argument-essay">Argument Essay</option>
+            </select>
+          </div>
+          <ul class="frq-question-list" id="frq-question-list"></ul>
+        </aside>
+
+        <!-- FRQ Work Area -->
+        <div class="frq-main">
+          <div id="frq-prompt-box" class="frq-prompt-box">
+            <p class="placeholder-text">← Select a question from the list to begin.</p>
+          </div>
+
+          <div id="frq-write-area" class="hidden">
+            <div class="frq-meta" id="frq-meta"></div>
+            <div class="frq-parts" id="frq-parts"></div>
+            <div class="frq-actions">
+              <button class="btn btn-primary" id="frq-grade-btn">Grade My Response</button>
+              <button class="btn btn-secondary" id="frq-reset-btn">Reset</button>
+            </div>
+          </div>
+
+          <div id="frq-results" class="hidden">
+            <h3>Your Score</h3>
+            <div class="score-display" id="score-display"></div>
+            <div class="score-breakdown" id="score-breakdown"></div>
+            <button class="btn btn-secondary" id="frq-retry-btn">Try Again</button>
+            <button class="btn btn-outline" id="frq-new-btn">New Question</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCOTUS EXPLORER -->
+    <section id="scotus" class="page">
+      <div class="page-header">
+        <h2>⚖️ Supreme Court Case Explorer</h2>
+        <p>All 15 required AP Gov Supreme Court cases — searchable, filterable, and exam-ready.</p>
+      </div>
+
+      <div class="scotus-controls">
+        <input type="text" id="scotus-search" placeholder="Search cases, topics, or constitutional provisions..." class="search-input" />
+        <div class="scotus-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="1">Unit 1</button>
+          <button class="filter-btn" data-filter="2">Unit 2</button>
+          <button class="filter-btn" data-filter="3">Unit 3</button>
+          <button class="filter-btn" data-filter="4">Unit 4</button>
+          <button class="filter-btn" data-filter="5">Unit 5</button>
+        </div>
+      </div>
+
+      <div class="scotus-grid" id="scotus-grid"></div>
+
+      <!-- Case Detail Modal -->
+      <div id="case-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content" id="modal-content"></div>
+      </div>
+    </section>
+
+    <!-- UNITS PAGE -->
+    <section id="units" class="page">
+      <div class="page-header">
+        <h2>📚 Unit Review Guides</h2>
+        <p>Key concepts, vocabulary, and exam tips for all five AP Gov units.</p>
+      </div>
+      <div class="units-grid" id="units-grid"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AP Gov Study Tool · Content aligned with College Board AP United States Government &amp; Politics CED · Not affiliated with College Board.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
